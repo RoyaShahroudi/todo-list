@@ -2,8 +2,6 @@ import {createContext, useState} from 'react'
 
 const TodosContext = createContext({
     todos: [],
-    totalTodos: 0,
-    doneList: [],
     addTodo: (title) =>  {},
     toggleItem: (item) => {},
     deleteItem: (item) => {}
@@ -11,7 +9,6 @@ const TodosContext = createContext({
 
 export function TodosContextProvider(props) {
     const [todos, settodos] = useState([]);
-    const [doneList, setdoneList] = useState([]);
 
     function addTodoHandler(title) {
         settodos(prevTodos => {
@@ -23,44 +20,21 @@ export function TodosContextProvider(props) {
     }
 
     function toggleItemHandler(item) {
-        if(item.done) {
-            settodos(prevTodos => {
-                return prevTodos.concat({
-                    title: item.title,
-                    done: false
-                });
+        settodos(prevTodos => {
+            return prevTodos.concat({
+                title: item.title,
+                done: !item.done
             });
-            const updatedDoneList = doneList.filter(doneItem => doneItem.title !== item.title);
-            setdoneList(updatedDoneList);
-        } else {
-            setdoneList(prevTodos => {
-                return prevTodos.concat({
-                    title: item.title,
-                    done: true
-                });
-            });
-            const updatedTodos = todos.filter(todo => todo.title !== item.title);
-            settodos(updatedTodos);
-        }
-        
+        });        
     }
 
     function deleteItemHandler(item) {
-        if(item.done) {
-          
-            const updatedDoneList = doneList.filter(doneItem => doneItem.title !== item.title);
-            setdoneList(updatedDoneList);
-        } else {
-            
-            const updatedTodos = todos.filter(todo => todo.title !== item.title);
-            settodos(updatedTodos);
-        }
+        const updatedTodos = todos.filter(todo => todo.title !== item.title);
+        settodos(updatedTodos);
     }
 
     const context = {
         todos: todos,
-        totalTodos: todos.length,
-        doneList: doneList,
         addTodo: addTodoHandler,
         toggleItem: toggleItemHandler,
         deleteItem: deleteItemHandler

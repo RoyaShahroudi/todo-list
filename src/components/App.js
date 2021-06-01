@@ -1,4 +1,4 @@
-import {useContext} from 'react'
+import {useContext, useEffect} from 'react'
 import TodosContext from '../store/todos-context'
 import Header from './Header'
 import AddTodo from './AddTodo'
@@ -7,12 +7,8 @@ import TodoItem from './TodoItem'
 import DoneItem from './DoneItem'
 
 function App() {
-  
-
-  const todosCtx = useContext(TodosContext);
-  const todos = todosCtx.todos;
-  const doneList = todosCtx.doneList;
- 
+  let todosCtx = useContext(TodosContext);
+  let todos = todosCtx.todos;
 
   const toggleTodos = (item) => {
     todosCtx.toggleItem(item);
@@ -22,13 +18,19 @@ function App() {
     todosCtx.deleteItem(item);
     console.log("delete: ", item);
   }  
-   
-  const filteredTodos = todos.filter(todoItem => !todoItem.done);
-  const filteredDone = doneList.filter(todoItem => todoItem.done);
 
-  const todoItems = filteredTodos.map((todoItem, index) => <TodoItem key={index} todo={todoItem} toggleTodos={toggleTodos} deleteItem={deleteItem} />)
-  const doneItems = filteredDone.map((todoItem, index) => <DoneItem key={index} todo={todoItem} toggleTodos={toggleTodos} deleteItem={deleteItem} />)
-    
+  let filteredTodos = todos.filter(todoItem => !todoItem.done);
+  let filteredDones = todos.filter(todoItem => todoItem.done);
+  
+  let todoItems = filteredTodos.map((todoItem, index) => <TodoItem key={index} todo={todoItem} toggleTodos={toggleTodos} deleteItem={deleteItem} />)
+  let doneItems = filteredDones.map((todoItem, index) => <DoneItem key={index} todo={todoItem} toggleTodos={toggleTodos} deleteItem={deleteItem} />)
+
+  // useEffect(() => {
+  //   filteredTodos = todos.filter(todoItem => !todoItem.done);
+  //   filteredDones = todos.filter(todoItem => todoItem.done);
+  //   todoItems = filteredTodos.map((todoItem, index) => <TodoItem key={todoItem.title} todo={todoItem} toggleTodos={toggleTodos} deleteItem={deleteItem} />)
+  //   doneItems = filteredDones.map((todoItem, index) => <DoneItem key={todoItem.title} todo={todoItem} toggleTodos={toggleTodos} deleteItem={deleteItem} />)
+  // }, [todos])
 
   return (
     <div className="pt-24 px-2 pb-10">
@@ -41,7 +43,6 @@ function App() {
           <TodoList header="Done">
             {doneItems}
           </TodoList>
-          
       </div>
     </div>
   );

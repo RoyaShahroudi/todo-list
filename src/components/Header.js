@@ -3,7 +3,8 @@ import TodosContext from '../store/todos-context'
 
 const Header = () => {
     const todosCtx = useContext(TodosContext);
-    const totalTodos = todosCtx.totalTodos;
+    const totalTodos = todosCtx.todos.filter(todo => !todo.done).length;
+
     return (
         <header className="flex justify-between">
             <div className="pb-4 flex items-center justify-center">
