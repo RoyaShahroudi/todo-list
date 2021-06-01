@@ -11,7 +11,8 @@ export function TodosContextProvider(props) {
     const [todos, settodos] = useState([]);
 
     function addTodoHandler(title) {
-        settodos(prevTodos => {
+        const duplicated = todos.find(todo => todo.title === title);
+        !duplicated && settodos(prevTodos => {
             return prevTodos.concat({
                 title: title,
                 done: false
@@ -20,12 +21,8 @@ export function TodosContextProvider(props) {
     }
 
     function toggleItemHandler(item) {
-        settodos(prevTodos => {
-            return prevTodos.concat({
-                title: item.title,
-                done: !item.done
-            });
-        });        
+        const updatedTodos = todos.map(todo => todo.title === item.title ? {...todo, done: !todo.done} : todo);
+        settodos(updatedTodos);       
     }
 
     function deleteItemHandler(item) {

@@ -11,8 +11,7 @@ const AddTodo = () => {
         if(enteredTodo.length !== 0) {
             todosCtx.addTodo(enteredTodo);
             todoInput.current.value = '';  
-        }
-        
+        } 
     }
 
     return (

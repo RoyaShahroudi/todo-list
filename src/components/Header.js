@@ -6,10 +6,10 @@ const Header = () => {
     const totalTodos = todosCtx.todos.filter(todo => !todo.done).length;
 
     return (
-        <header className="flex justify-between">
-            <div className="pb-4 flex items-center justify-center">
+        <header>
+            <div className="pb-4 flex items-center">
                 <span className="text-blue-600 font-bold text-2xl">Todo List</span>
-                <span className="ml-3 h-6 w-6 flex items-center justify-center text-sm font-semibold bg-blue-600 text-white rounded-full">
+                <span className="ml-3 h-6 w-6  flex items-center justify-center text-sm font-semibold bg-blue-600 text-white rounded-full">
                     {totalTodos}
                 </span>
             </div>
